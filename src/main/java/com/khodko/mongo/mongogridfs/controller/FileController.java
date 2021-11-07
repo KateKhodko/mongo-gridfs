@@ -2,7 +2,6 @@ package com.khodko.mongo.mongogridfs.controller;
 
 import com.khodko.mongo.mongogridfs.file.LoadFile;
 import com.khodko.mongo.mongogridfs.service.FileService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
