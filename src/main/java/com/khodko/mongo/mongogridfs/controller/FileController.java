@@ -1,6 +1,6 @@
 package com.khodko.mongo.mongogridfs.controller;
 
-import com.khodko.mongo.mongogridfs.file.LoadFile;
+import com.khodko.mongo.mongogridfs.dto.LoadFileDto;
 import com.khodko.mongo.mongogridfs.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -26,11 +26,11 @@ public class FileController {
 
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
-        LoadFile loadFile = fileService.downloadFile(id);
+        LoadFileDto loadFileDto = fileService.downloadFile(id);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(loadFile.getFileType() ))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + loadFile.getFilename() + "\"")
-                .body(new ByteArrayResource(loadFile.getFile()));
+                .contentType(MediaType.parseMediaType(loadFileDto.getFileType() ))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + loadFileDto.getFilename() + "\"")
+                .body(new ByteArrayResource(loadFileDto.getFile()));
     }
 }

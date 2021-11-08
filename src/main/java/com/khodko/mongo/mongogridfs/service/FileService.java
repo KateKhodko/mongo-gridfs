@@ -1,6 +1,6 @@
 package com.khodko.mongo.mongogridfs.service;
 
-import com.khodko.mongo.mongogridfs.file.LoadFile;
+import com.khodko.mongo.mongogridfs.dto.LoadFileDto;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -33,18 +33,18 @@ public class FileService {
         return fileID.toString();
     }
 
-    public LoadFile downloadFile(String id) throws IOException {
+    public LoadFileDto downloadFile(String id) throws IOException {
         GridFSFile gridFSFile = template.findOne(new Query(Criteria.where("_id").is(id)));
 
-        LoadFile loadFile = new LoadFile();
+        LoadFileDto loadFileDto = new LoadFileDto();
 
         if (gridFSFile != null && gridFSFile.getMetadata() != null) {
-            loadFile.setFilename(gridFSFile.getFilename());
-            loadFile.setFileType(gridFSFile.getMetadata().get("_contentType").toString());
-            loadFile.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
-            loadFile.setFile((template.getResource(gridFSFile).getInputStream()).readAllBytes());
+            loadFileDto.setFilename(gridFSFile.getFilename());
+            loadFileDto.setFileType(gridFSFile.getMetadata().get("_contentType").toString());
+            loadFileDto.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
+            loadFileDto.setFile((template.getResource(gridFSFile).getInputStream()).readAllBytes());
         }
 
-        return loadFile;
+        return loadFileDto;
     }
 }
