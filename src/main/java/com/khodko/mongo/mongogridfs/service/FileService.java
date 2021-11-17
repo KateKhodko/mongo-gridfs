@@ -38,12 +38,14 @@ public class FileService {
 
         LoadFileDto loadFileDto = new LoadFileDto();
 
-        if (gridFSFile != null && gridFSFile.getMetadata() != null) {
-            loadFileDto.setFilename(gridFSFile.getFilename());
-            loadFileDto.setFileType(gridFSFile.getMetadata().get("_contentType").toString());
-            loadFileDto.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
-            loadFileDto.setFile((template.getResource(gridFSFile).getInputStream()).readAllBytes());
+        if (gridFSFile == null || gridFSFile.getMetadata() == null) {
+            throw new IOException();
         }
+
+        loadFileDto.setFilename(gridFSFile.getFilename());
+        loadFileDto.setFileType(gridFSFile.getMetadata().get("_contentType").toString());
+        loadFileDto.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
+        loadFileDto.setFile((template.getResource(gridFSFile).getInputStream()).readAllBytes());
 
         return loadFileDto;
     }

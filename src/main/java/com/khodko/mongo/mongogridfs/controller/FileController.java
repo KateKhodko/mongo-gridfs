@@ -28,10 +28,6 @@ public class FileController {
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
         LoadFileDto loadFileDto = fileService.downloadFile(id);
 
-        if (loadFileDto == null) {
-            throw new IOException();
-        }
-
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(loadFileDto.getFileType() ))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + loadFileDto.getFilename() + "\"")
