@@ -20,13 +20,17 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> upload(@RequestBody MultipartFile file) throws IOException {
         return new ResponseEntity<>(fileService.addFile(file), HttpStatus.OK);
     }
 
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
         LoadFileDto loadFileDto = fileService.downloadFile(id);
+
+        if (loadFileDto == null) {
+            throw new IOException();
+        }
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(loadFileDto.getFileType() ))
